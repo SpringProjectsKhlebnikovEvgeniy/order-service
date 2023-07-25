@@ -5,13 +5,18 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import sprojects.productservice.dto.OrderLineItemsDto;
 import sprojects.productservice.dto.OrderRequest;
 import sprojects.productservice.model.Order;
 import sprojects.productservice.model.OrderLineItems;
+import sprojects.productservice.repository.OrderRepository;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
+	
+	private final OrderRepository orderRepository;
 
 	public void placeOrder(OrderRequest orderRequest) {
 		Order order = new Order();
@@ -22,6 +27,8 @@ public class OrderService {
 					.map(this::mapToDto)
 					.toList();
 		 order.setOrderLineItemsList(orderLineItems);
+		 
+		 orderRepository.save(order);
 		
 		
 	}
